@@ -1,0 +1,75 @@
+<%- include ('../include/header') -%>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Title</th>
+                <th scope="col">email</th>
+                <th scope="col">Day</th>
+            </tr>
+        </thead>
+        <tbody id="boardMaster">
+            <% for (var i=0; i < boards.length; i++) { %>
+                <tr>
+                    <th scope="row">
+                        <%= i + 1 %>
+                    </th>
+                    <td>
+                        <a href="/readBoard/?boardId=<%= boards[i]['boardId'] %>">
+                            <%= boards[i]['title'] %>
+                        </a>
+                    </td>
+                    <td>
+                        <%= boards[i]['email'] %>
+                    </td>
+                    <td>
+                        <%= boards[i]['day'].getFullYear() + '-' + parseInt(boards[i]['day'].getMonth() + 1) + '-' +
+                            boards[i]['day'].getDate() %>
+                    </td>
+                </tr>
+                <% } %>
+        </tbody>
+    </table>
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            <% for (let i=1; i <=totalPages; i++) { %>
+                <li class="page-item <% if (currentPage === i) { %>active<% } %>">
+                    <a class="page-link" href="/?page=<%= i %>">
+                        <%= i %>
+                    </a>
+                </li>
+                <% } %>
+        </ul>
+    </nav>
+
+    <button type="button" class="btn btn-info" onclick="move_writeBoard()">글쓰기</button>
+
+    <%- include ('../include/modal') -%>
+
+        <script>
+            function move_writeBoard() {
+                var myLoginModal = new bootstrap.Modal(document.getElementById("loginModal"), {});
+
+                const url = '/auth/writeBoard';
+                const init = {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'authorization': 'Bearer ' + localStorage.getItem("token"),
+                    },
+                    credentials: 'same-origin'
+                };
+
+                fetch(url, init)
+                    .then((res) => res.json())
+                    .then(res => {
+                        if (res.status == 200 || res.status == 201) {
+                            return location.href = '/writeBoard';
+                        } else {
+                            myLoginModal.show();
+                        }
+                    })
+            }
+
+        </script>
+        <%- include ('../include/footer') -%>

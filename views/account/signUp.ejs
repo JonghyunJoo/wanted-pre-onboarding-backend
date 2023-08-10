@@ -1,0 +1,76 @@
+<%- include ('../include/header') -%>
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">이메일</span>
+        <input type="text" class="form-control" id="email" placeholder="이메일의 형태여야 합니다" aria-label="Username"
+            aria-describedby="basic-addon1">
+    </div>
+
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">비밀번호</span>
+        <input type="password" class="form-control" id="password" placeholder="8자 이상 입력하여야 합니다" aria-label="Username"
+            aria-describedby="basic-addon1">
+    </div>
+
+
+    <button type="button" class="btn btn-success" onclick="chkSignUp()">회원가입</button>
+
+    <%- include ('../include/modal') -%>
+
+        <script>
+            function chkSignUp() {
+                let email = document.getElementById('email').value;
+                let password = document.getElementById('password').value;
+
+                var myModal = new bootstrap.Modal(document.getElementById("noticeModal"), {});
+                var myChkValModal = new bootstrap.Modal(document.getElementById("chkValModal"), {});
+
+                const data = {
+                    email: email,
+                    password: password,
+                }
+
+                if (email == '' || password == '') {
+                    myChkValModal.show();
+
+                } else {
+
+                    const url = '/accountAPI/signUp';
+                    const init = {
+                        method: 'POST',
+                        body: JSON.stringify(data),
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        credentials: 'same-origin'
+                    };
+
+                    fetch(url, init)
+                        .then((res) => res.json())
+                        .then(res => {
+
+                            const modalTitle = document.querySelector('#msgTitle');
+                            var mtTxt = document.createTextNode(res['modal_title']);
+                            modalTitle.appendChild(mtTxt);
+
+                            const modalBody = document.querySelector('#msgbody');
+                            var mbTxt = document.createTextNode(res['modal_body']);
+                            modalBody.appendChild(mbTxt);
+
+                            if (res.status == 200 || res.status == 201) {
+                                document.getElementById('exitButton').setAttribute('onclick', 'window.location.href="/login"');
+                                document.getElementById('correctButton').setAttribute('onclick', 'window.location.href="/login"');
+
+                            } else {
+                                document.getElementById('exitButton').setAttribute('onclick', "closeOneModal('noticeModal')");
+                                document.getElementById('correctButton').setAttribute('onclick', "closeOneModal('noticeModal')");
+                            }
+
+                            myModal.show();
+                        })
+
+                }
+            }
+
+        </script>
+
+        <%- include ('../include/footer') -%>

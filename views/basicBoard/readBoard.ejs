@@ -1,0 +1,116 @@
+<%- include ('../include/header') -%>
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">제목</span>
+        <input type="text" id='title' class="form-control" aria-label="Username" aria-describedby="basic-addon1"
+            readonly value="<%= readBoard['title'] %>">
+    </div>
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">작성자명</span>
+        <input type="text" id='email' class="form-control" aria-label="Username" aria-describedby="basic-addon1"
+            readonly value="<%= readBoard['email'] %>">
+    </div>
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">작성날짜</span>
+        <input type="text" id='day' class="form-control" aria-label="Username" aria-describedby="basic-addon1" readonly
+            value="<%= readBoard['day'].getFullYear() + '-' + parseInt(readBoard['day'].getMonth() + 1) + '-' + readBoard['day'].getDate() %>">
+    </div>
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">내용</span>
+        <input type="text" id='contents' class="form-control" aria-label="Username" aria-describedby="basic-addon1"
+            readonly value="<%= readBoard['contents'] %>">
+    </div>
+
+    <div id="readDiv">
+    </div>
+
+    <%- include ('../include/modal') -%>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                make_button();
+            })
+            const queryString = window.location.search;
+            const urlParam = new URLSearchParams(queryString);
+            const boardId = urlParam.get('boardId');
+
+            let nowButton = "";
+
+            function make_button() {
+                let email = document.getElementById('email').value
+                let token = parseJwt(localStorage.getItem("token"))['email'];
+
+                if (localStorage.getItem('token') != null && email == token) {
+                    var btn_upd = document.createElement('button');
+                    var btn_del = document.createElement('button');
+                    var read = document.getElementById('readDiv');
+
+                    btn_upd.type = 'button';
+                    btn_del.type = 'button';
+
+                    btn_upd.className = 'btn btn-primary';
+                    btn_del.className = 'btn btn-danger';
+
+                    btn_upd.id = 'updateButton';
+                    btn_del.id = 'deleteButton';
+
+                    btn_upd.onclick = () => {
+                        updButtonSet();
+
+                    }
+
+                    btn_del.onclick = () => {
+                        delButtonSet();
+                    }
+
+                    var loginTxt = document.createTextNode('수정하기');
+                    btn_upd.appendChild(loginTxt);
+
+                    var regTxt = document.createTextNode('삭제하기');
+                    btn_del.appendChild(regTxt);
+
+                    read.appendChild(btn_upd);
+                    read.appendChild(btn_del);
+                }
+            }
+
+            function updButtonSet() {
+                location.href = '/updateBoard/?boardId=' + boardId;
+            }
+
+            function delButtonSet() {
+                var myModal = new bootstrap.Modal(document.getElementById("noticeModal"), {});
+
+                const data = {
+                    boardId: boardId,
+                }
+
+                const url = '/api/delete';
+                const init = {
+                    method: 'POST',
+                    body: JSON.stringify(data),
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'authorization': 'Bearer ' + localStorage.getItem("token"),
+                    },
+                    credentials: 'same-origin'
+                };
+
+                fetch(url, init)
+                    .then((res) => res.json())
+                    .then(res => {
+                        responseTxt = res;
+                        if (res.status == 200 || res.status == 201) {
+                            const modalTitle = document.querySelector('#msgTitle');
+                            var mtTxt = document.createTextNode(responseTxt['modal_title']);
+                            modalTitle.appendChild(mtTxt);
+
+                            const modalBody = document.querySelector('#msgbody');
+                            var mbTxt = document.createTextNode(responseTxt['modal_body']);
+                            modalBody.appendChild(mbTxt);
+
+                            myModal.show();
+                        }
+                    })
+            }
+
+        </script>
+        <%- include ('../include/footer') -%>
