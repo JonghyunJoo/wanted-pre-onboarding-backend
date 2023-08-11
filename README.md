@@ -45,18 +45,22 @@ http://localhost:3000으로 접속
 ## API 명세(request/response 포함)
 
 ### 1. 회원가입
-URL: /accountAPI/signUp
+#### URL:
+/accountAPI/signUp
 
-Method: POST
+#### Method:
+POST
 
-request:
+#### request:
 
 {
   "email": "example@example.com",
   "password": "securepassword"
 }
 
-response:
+#### response:
+
+성공 :
 
 {
   "result": "success",
@@ -65,12 +69,219 @@ response:
   "modal_body": "회원이 되신 것을 축하드립니다!"
 }
 
+실패 :
+
 {
   "result": "fail",
   "status": 400,
   "modal_title": "회원가입 실패",
   "modal_body": "중복된 이메일입니다."
 }
+
+### 2. 로그인
+#### URL:
+/accountAPI/login
+
+#### Method:
+POST
+
+#### request:
+
+{
+  "email": "example@example.com",
+  "password": "securepassword"
+}
+
+#### response:
+
+성공 :
+
+{
+  "token": "jsonwebtoken",
+  "status": 200,
+  "result": "success",
+  "modal_title": "로그인 성공",
+  "modal_body": "example@example.com님 환영합니다."
+}
+
+실패 :
+
+{
+  "result": "fail",
+  "status": 400,
+  "modal_title": "로그인 실패",
+  "modal_body": "이메일을 확인해주세요."
+}
+
+### 3. 게시글 목록
+#### URL:
+/api
+
+#### Method:
+GET
+
+#### request:
+
+
+#### response:
+
+{
+  "boards": [
+    {
+      "boardId": 1,
+      "title": "게시글 제목",
+      "email": "example@example.com",
+      "day": "2023-08-09"
+    },
+  ],
+  "currentPage": 1,
+  "totalPages": 5
+}
+
+### 4. 게시글 생성
+#### URL:
+/accountAPI/login
+
+#### Method:
+POST
+
+#### request:
+
+{
+  "email": "example@example.com",
+  "password": "securepassword"
+}
+
+#### response:
+
+성공 :
+
+{
+  "token": "jsonwebtoken",
+  "status": 200,
+  "result": "success",
+  "modal_title": "로그인 성공",
+  "modal_body": "example@example.com님 환영합니다."
+}
+
+실패 :
+
+{
+  "result": "fail",
+  "status": 400,
+  "modal_title": "로그인 실패",
+  "modal_body": "이메일을 확인해주세요."
+}
+
+### 5. 게시글 조회
+#### URL:
+/accountAPI/login
+
+#### Method:
+POST
+
+#### request:
+
+{
+  "email": "example@example.com",
+  "password": "securepassword"
+}
+
+#### response:
+
+성공 :
+
+{
+  "token": "jsonwebtoken",
+  "status": 200,
+  "result": "success",
+  "modal_title": "로그인 성공",
+  "modal_body": "example@example.com님 환영합니다."
+}
+
+실패 :
+
+{
+  "result": "fail",
+  "status": 400,
+  "modal_title": "로그인 실패",
+  "modal_body": "이메일을 확인해주세요."
+}
+
+### 6. 게시글 수정
+#### URL:
+/accountAPI/login
+
+#### Method:
+POST
+
+#### request:
+
+{
+  "email": "example@example.com",
+  "password": "securepassword"
+}
+
+#### response:
+
+성공 :
+
+{
+  "token": "jsonwebtoken",
+  "status": 200,
+  "result": "success",
+  "modal_title": "로그인 성공",
+  "modal_body": "example@example.com님 환영합니다."
+}
+
+실패 :
+
+{
+  "result": "fail",
+  "status": 400,
+  "modal_title": "로그인 실패",
+  "modal_body": "이메일을 확인해주세요."
+}
+
+### 7. 게시글 삭제
+#### URL:
+/accountAPI/login
+
+#### Method:
+POST
+
+#### request:
+
+{
+  "email": "example@example.com",
+  "password": "securepassword"
+}
+
+#### response:
+
+성공 :
+
+{
+  "token": "jsonwebtoken",
+  "status": 200,
+  "result": "success",
+  "modal_title": "로그인 성공",
+  "modal_body": "example@example.com님 환영합니다."
+}
+
+실패 :
+
+{
+  "result": "fail",
+  "status": 400,
+  "modal_title": "로그인 실패",
+  "modal_body": "이메일을 확인해주세요."
+}
+
+
+## test 코드 실행 방법
+
+npm test
 
 ## docker-compose 실행 방법
 
