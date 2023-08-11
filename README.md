@@ -1,11 +1,11 @@
 # wanted-pre-onboarding-backend
 
 ## 이름
+
 주종현
 
 
 ## 애플리케이션의 실행 방법 (엔드포인트 호출 방법 포함)
-
 
 npm install
 
@@ -16,14 +16,12 @@ http://localhost:3000으로 접속
 
 ## 데이터베이스 테이블 구조
 
-
 |Column|Data Type|Constraints|
 |-----|-----|-------|
 |email|STRING|Primary Key, Not Null|
 |password|STRING|Not Null|
 |createdAt|DATE|Not Null|
 |updatedAt|DATE|Not Null|
-
 
 |Column|Data Type|Constraints|
 |-----|-----|-------|
@@ -38,8 +36,14 @@ http://localhost:3000으로 접속
 
 ## 구현한 API의 동작을 촬영한 데모 영상 링크
 
+https://youtu.be/gWdYEekyFPo
+
 
 ## 구현 방법 및 이유에 대한 간략한 설명
+
+node.js의 웹 프레임워크인 Express를 사용했으며 DB 작업을 도와주는 ORM인 sequelize를 사용해 DB를 처리했습니다
+
+데이터의 유효성을 검사하기 위해 joi라는 라이브러리를 사용하였고 jest를 이용해 코드 테스트를 진행했습니다
 
 
 ## API 명세(request/response 포함)
