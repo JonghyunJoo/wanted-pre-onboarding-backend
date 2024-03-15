@@ -1,10 +1,5 @@
 # wanted-pre-onboarding-backend
 
-## 이름
-
-주종현
-
-
 ## 애플리케이션의 실행 방법 (엔드포인트 호출 방법 포함)
 
 npm install
